@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 import in.sjstudio.hibernate.advanced.entity.Student;
 
@@ -71,5 +72,11 @@ public class StudentDataRepositoryTest {
   @Test
   public void count_by_name() {
     logger.info("students with name Sreejith Sreekantan -> {}", repository.countByName("Sreejith Sreekantan"));
+  }
+  
+  @Test
+  public void test_sort() {
+    Sort sort = new Sort(Sort.Direction.ASC, "name");
+    logger.info("Students in order of name -> {}", repository.findAll(sort));
   }
 }

@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 import in.sjstudio.hibernate.advanced.entity.Course;
 
@@ -41,4 +44,15 @@ public class CourseDataRepositoryTest {
     repository.save(course);
     logger.info("Course 10001 after updation -> {}", repository.findById(10001L).get());
   }
+  
+  @Test
+  public void test_pagination() {
+    PageRequest pageRequest = PageRequest.of(0, 2);
+    Page<Course> firstPage = repository.findAll(pageRequest);
+    logger.info("first page -> {}", firstPage.getContent());
+    
+    Pageable secondPageable = firstPage.nextPageable();
+    logger.info("second page -> {}", repository.findAll(secondPageable).getContent());
+  }
+  
 }
