@@ -78,14 +78,6 @@ public class JPQLTest {
     }
   }
 
-  @Test
-  public void test_cross_join() {
-    Query query = em.createQuery("select c, s from Course c, Student s");
-    List<Object[]> result = query.getResultList();
-    logger.info("number of rows : {}", result.size());
-    for (Object[] item : result) {
-      logger.info("{course -> {}}, {student -> {}}", item[0], item[1]);
-    }
-  }
+
 
 }
