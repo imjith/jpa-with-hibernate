@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import javax.transaction.Transactional;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -27,7 +25,7 @@ public class CourseRepositoryTest {
   @Test
   public void testFindById() {
     Course course = courseRepo.findById(10001L);
-    logger.info("Course with 10001L ->{}",course);
+    logger.info("Course with 10001L ->{}", course);
   }
 
   @Test
@@ -39,8 +37,8 @@ public class CourseRepositoryTest {
   @DirtiesContext
   public void testDeleteById() {
 
-    //courseRepo.deleteById(10001L);
-    //assertNull(courseRepo.findById(10001L));
+    // courseRepo.deleteById(10001L);
+    // assertNull(courseRepo.findById(10001L));
   }
 
   @Test
@@ -65,5 +63,14 @@ public class CourseRepositoryTest {
   public void testCourseReviews() {
     Course course = courseRepo.findById(10001L);
     logger.info("reviews of course [{}] -> {}", course.getName(), course.getReviews());
+  }
+
+  @Test
+  @Transactional
+  public void testFindById_firstLevelCache() {
+    Course course1 = courseRepo.findById(10001L);
+    logger.info("Course with 10001L ->{}", course1);
+    Course course2 = courseRepo.findById(10001L);
+    logger.info("Course with id 10001L loaded again -> {}", course2);
   }
 }

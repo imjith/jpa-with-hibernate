@@ -1,5 +1,6 @@
 package in.sjstudio.hibernate.advanced.repository;
 
+import javax.transaction.Transactional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -44,15 +45,24 @@ public class CourseDataRepositoryTest {
     repository.save(course);
     logger.info("Course 10001 after updation -> {}", repository.findById(10001L).get());
   }
-  
+
   @Test
   public void test_pagination() {
     PageRequest pageRequest = PageRequest.of(0, 2);
     Page<Course> firstPage = repository.findAll(pageRequest);
     logger.info("first page -> {}", firstPage.getContent());
-    
+
     Pageable secondPageable = firstPage.nextPageable();
     logger.info("second page -> {}", repository.findAll(secondPageable).getContent());
   }
-  
+
+  @Test
+  @Transactional
+  public void testFindById_firstLevelCache() {
+    Course course1 = repository.findById(10001L).get();
+    logger.info("Course with 10001L ->{}", course1);
+    Course course2 = repository.findById(10001L).get();
+    logger.info("Course with id 10001L loaded again -> {}", course2);
+  }
+
 }
