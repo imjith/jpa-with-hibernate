@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.math.BigDecimal;
 
+
 @SpringBootApplication
 public class JpaWithHibernateAdvancedApplication implements CommandLineRunner {
 
